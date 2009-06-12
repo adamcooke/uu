@@ -1,3 +1,4 @@
+require 'useful_utils/core_ext'
 require 'useful_utils/nav_selector'
 require 'useful_utils/agent'
 require 'useful_utils/helpers'
