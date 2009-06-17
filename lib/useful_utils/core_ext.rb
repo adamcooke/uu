@@ -22,6 +22,15 @@ class String
     p
   end
   
+  def enclose(c)
+    case c
+    when '()' then "(#{self})"
+    when '[]' then "[#{self}]"
+    else
+      "#{c}#{self}#{c}"
+    end
+  end
+  
 end
 
 class Hash
