@@ -1,10 +1,12 @@
 class String
   
   ## Return a random alpha-numeric string
-  def self.random(length = 20)
+  def self.random(length = 20, include_numbers = true)
     srand
-    options = { :length => length, :chars => ('a'..'z').to_a + ('0'..'9').to_a }
-    Array.new(options[:length]) { options[:chars].to_a[rand(options[:chars].to_a.size)] }.join
+    chars = ('a'..'z').to_a
+    chars += (0..9).to_a if include_numbers
+    chars = chars.to_a
+    Array.new(length) { chars[rand(chars.size)] }.join
   end
   
   ## Create a sha for this string
@@ -29,6 +31,18 @@ class String
     else
       "#{c}#{self}#{c}"
     end
+  end
+  
+end
+
+class Integer
+  
+  ## Return a random string of numbers from 1 to 9. This does not include zero (0) because it could stop the length
+  ## from being correct if the first number is 0.
+  def self.random(length = 20)
+    srand
+    chars = (1..9).to_a
+    Array.new(length) { chars.to_a[rand(chars.size)] }.join.to_i
   end
   
 end

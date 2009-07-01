@@ -32,14 +32,12 @@ module ActiveRecord
     def read_only?(column)
       !new_record? and attr_readonly?(column)
     end
+    
+    def self.concerned_with(*concerns)
+      concerns.each do |concern|
+        require_dependency "#{name.underscore}/#{concern}"
+      end
+    end
 
   end 
-end
-
-class << ActiveRecord::Base
-  def concerned_with(*concerns)
-    concerns.each do |concern|
-      require_dependency "#{name.underscore}/#{concern}"
-    end
-  end
 end
