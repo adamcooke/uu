@@ -38,6 +38,25 @@ module ActiveRecord
         require_dependency "#{name.underscore}/#{concern}"
       end
     end
+    
+    ## This allows you to pass a hash to Model#update_attribute for those of us who have a nasty habit of sending a hash to the method.
+    ## For example `account.update_attribute(:name => 'blah')` wouldn't usually work but this makes it work like a dream. 
+    
+    class NoAttribute; end
+    
+    def update_attribute_with_hash(name, value = NoAttribute)
+      if name.is_a?(Hash)
+        if name.size == 1
+          name, value = name.to_a.flatten
+        else
+          raise ArgumentError, "Provided hash must only include one pair. Perhaps you want to use #{self.class.to_s}#update_attributes(hash)?"
+        end
+      elsif value == NoAttribute
+        raise ArgumentError, "wrong number of arguments (1 for 2)"
+      end
+      self.update_attribute_without_hash(name, value)
+    end
+    alias_method_chain :update_attribute, :hash
 
   end 
 end
