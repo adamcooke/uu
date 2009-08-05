@@ -22,7 +22,7 @@ module UsefulUtils
 
       bc = BlueCloth.new(content)
       content = (options[:preserve] ? preserve(bc.to_html) : bc.to_html)
-      content_tag :div, content, :class => 'cfm'
+      content_tag :div, content, :class => 'afm cfm'
     end
     
   end
