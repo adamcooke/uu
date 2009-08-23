@@ -31,7 +31,7 @@ module UsefulUtils
     end
 
     def req
-      %Q{<span class="req" title="#{t('required_field')}">*</span>}
+      %Q{<span class="req" title="Required Field">*</span>}
     end
 
     def avatar_for(email, size = 35)
