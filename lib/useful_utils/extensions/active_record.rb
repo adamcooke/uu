@@ -12,6 +12,7 @@ module ActiveRecord
     def dom_id
       display_id = new_record? ? "new" : id
       prefix = prefix.nil? ? self.class.name.underscore : "#{prefix}_#{self.class.name.underscore}"
+      prefix.gsub!('/', '_')
       "#{prefix}_#{display_id}"
     end
     
