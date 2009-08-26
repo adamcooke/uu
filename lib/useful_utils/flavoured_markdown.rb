@@ -7,12 +7,13 @@ module UsefulUtils
       options[:format_inline_images] = options[:format_inline_images].nil? ? false : options[:format_inline_images]
       options[:markup] ||= :markdown
       
+      content = content.gsub(/[&"<]/) { |special| HTML_ESCAPE[special] }
+
       ## Format images neatly by plopping them into a P tag
       if options[:format_inline_images]
         content.gsub!(/!\[Image(\d+)?\]\((.*)\)/) { content_tag(:p, image_tag($2, :alt => "Image", :width => $1), :class => "image") }
       end
       
-      content = content.gsub(/[&"<]/) { |special| HTML_ESCAPE[special] }
       
       content = case options[:markup].to_sym
       when :markdown then BlueCloth.new(content)
