@@ -3,17 +3,19 @@ module UsefulUtils
     
     def afm(content, options = {}, &block)
       options[:preserve] = options[:preserve].nil? ? true : options[:preserve]
+      options[:escape_html] = options[:escape_html].nil? ? true : options[:escape_html]
       options[:sanitize] = options[:sanitize].nil? ? false : options[:sanitize]
       options[:format_inline_images] = options[:format_inline_images].nil? ? false : options[:format_inline_images]
       options[:markup] ||= :markdown
       
-      content = content.gsub(/[&"<]/) { |special| HTML_ESCAPE[special] }
+      if options[:escape_html]
+        content = content.gsub(/[&"<]/) { |special| HTML_ESCAPE[special] }
+      end
 
       ## Format images neatly by plopping them into a P tag
       if options[:format_inline_images]
         content.gsub!(/!\[Image(\d+)?\]\((.*)\)/) { content_tag(:p, image_tag($2, :alt => "Image", :width => $1), :class => "image") }
       end
-      
       
       content = case options[:markup].to_sym
       when :markdown then BlueCloth.new(content)
