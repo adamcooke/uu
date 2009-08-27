@@ -9,7 +9,7 @@ module UsefulUtils
       options[:markup] ||= :markdown
       
       if options[:escape_html]
-        content = content.gsub(/[&"<]/) { |special| HTML_ESCAPE[special] }
+        content = content.gsub(/[&<]/) { |special| HTML_ESCAPE[special] }
       end
 
       ## Format images neatly by plopping them into a P tag
@@ -35,7 +35,7 @@ module UsefulUtils
         "{afm-extraction-#{md5}}"
       end
 
-      ## Sanaitize the content if appropriate
+      ## Sanaitize the content if appropriate (doesn't play nice with textile tables)
       if options[:sanitize]
         content = sanitize(content)
       end
