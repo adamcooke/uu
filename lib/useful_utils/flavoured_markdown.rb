@@ -18,7 +18,14 @@ module UsefulUtils
       end
       
       content = case options[:markup].to_sym
-      when :markdown then BlueCloth.new(content)
+      when :markdown
+        begin
+          RDiscount.new(content)
+        rescue LoadError
+          require 'bluecloth'
+          BlueCloth.new(content)
+          raise "Blah"
+        end
       when :textile then RedCloth.new(content)
       when :simple then simple_format(content)
       else
@@ -49,6 +56,10 @@ module UsefulUtils
         x.gsub('_', '\_') if x.split('').sort.to_s[0..1] == '__'
       end
       
+      if block_given?
+        content = block.call(content)
+      end
+      
       ## Re-insert the pres
       content.gsub!(/\{afm-extraction-([0-9a-f]{32})\}/) do
         "\n\n" + extractions[$1].gsub(/(#{ERB::Util::HTML_ESCAPE.values.join('|')})/) { |special| ERB::Util::HTML_ESCAPE.invert[special] }
@@ -56,10 +67,6 @@ module UsefulUtils
 
       if options[:preserve]
         content = preserve(content)
-      end
-
-      if block_given?
-        content = block.call(content)
       end
       
       content_tag :div, content, :class => 'afm cfm'
