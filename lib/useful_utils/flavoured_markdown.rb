@@ -18,7 +18,13 @@ module UsefulUtils
       end
       
       content = case options[:markup].to_sym
-      when :markdown then BlueCloth.new(content)
+      when :markdown
+        begin
+          RDiscount.new(content)
+        rescue LoadError
+          require 'bluecloth'
+          BlueCloth.new(content)
+        end
       when :textile then RedCloth.new(content)
       when :simple then simple_format(content)
       else
