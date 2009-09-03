@@ -20,6 +20,7 @@ module UsefulUtils
       content = case options[:markup].to_sym
       when :markdown
         begin
+          require 'rdiscount'
           RDiscount.new(content)
         rescue LoadError
           require 'bluecloth'
