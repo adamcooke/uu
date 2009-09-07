@@ -9,7 +9,7 @@ module UsefulUtils
       options[:markup] ||= :markdown
       
       if options[:escape_html]
-        content = content.gsub(/[&<]/) { |special| HTML_ESCAPE[special] }
+        content = content.gsub(/[&<]/) { |special| ERB::Util::HTML_ESCAPE[special] }
       end
 
       ## Format images neatly by plopping them into a P tag
