@@ -36,7 +36,7 @@ module UsefulUtils
       
       ## Extract all the preblocks before we do stuff like this...
       extractions = {}
-      content.gsub!(%r{<pre>.*?</pre>}m) do |match|
+      content.gsub!(/(\<pre\>.*?\<\/pre\>|\<code\>.*?\<\/code\>)/m) do |match|
         md5 = Digest::MD5.hexdigest(match)
         extractions[md5] = match
         "{afm-extraction-#{md5}}"
