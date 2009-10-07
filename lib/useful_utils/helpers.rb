@@ -19,10 +19,10 @@ module UsefulUtils
       image_tag "icons/#{icon.to_s}#{extension}", :alt => text, :title => text, :class => "icon #{icon}"
     end
 
-    def timestamp(time)
+    def timestamp(time, options = {})
       return "" unless time.is_a?(Time)
-      if time.utc < (Time.now - 4.days)
-        r = time.strftime("%d %b %y")
+      if time.utc < (Time.now - 3.days)
+        r = (options[:include_time] ? time.strftime("%d %b %y,  %H:%M") : time.strftime("%d %b %y"))
       else
         r = distance_of_time_in_words_to_now(time) + " "
         r << (time < Time.now ? "ago" : "from now")
