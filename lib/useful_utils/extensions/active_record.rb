@@ -40,6 +40,16 @@ module ActiveRecord
       end
     end
     
+    def self.validates_email(*attr_names)
+      configuration = {:on => :save}
+      configuration.update(attr_names.extract_options!)
+      validates_each(attr_names, configuration) do |record, attr_name, value|
+        unless value =~ /\A\b[A-Z0-9\.\_\%\-\+]+@(?:[A-Z0-9\-]+\.)+[A-Z]{2,4}\b\z/i
+          record.errors.add(attr_name, :invalid, :default => configuration[:message], :value => value) 
+        end
+      end
+    end
+    
     ## This allows you to pass a hash to Model#update_attribute for those of us who have a nasty habit of sending a hash to the method.
     ## For example `account.update_attribute(:name => 'blah')` wouldn't usually work but this makes it work like a dream. 
     
