@@ -1,7 +1,7 @@
 module UsefulUtils
-  module AtechFlavouredMarkdown
+  module FlavouredMarkdown
     
-    def afm(content, options = {}, &block)
+    def fm(content, options = {}, &block)
       options[:preserve] = options[:preserve].nil? ? true : options[:preserve]
       options[:escape_html] = options[:escape_html].nil? ? true : options[:escape_html]
       options[:sanitize] = options[:sanitize].nil? ? false : options[:sanitize]
@@ -72,7 +72,9 @@ module UsefulUtils
       content_tag :div, content, :class => 'afm cfm'
     end
     
+    alias_method :afm, :fm
+    
   end
 end
 
-ActionView::Base.send :include, UsefulUtils::AtechFlavouredMarkdown
+ActionView::Base.send :include, UsefulUtils::FlavouredMarkdown
