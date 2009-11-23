@@ -78,7 +78,7 @@ module UsefulUtils
         prefix = options.delete(:prefix) || ''
         suffix = options.delete(:suffix) || ''
         key = label.downcase.gsub(' ', "_").to_sym if key.blank?
-        options[:class] = "#{options[:class]} active" if active_nav_item_for(type) && active_nav_item_for(type) == key
+        options[:class] = "#{options[:class]} active".strip if active_nav_item_for(type) && active_nav_item_for(type) == key
         link_to(prefix + label + suffix, destination, options)
       end
         
