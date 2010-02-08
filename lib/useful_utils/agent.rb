@@ -10,7 +10,7 @@ module UsefulUtils
     def client_os
       return 'generic_os' unless request.env['HTTP_USER_AGENT']
        agent = request.env['HTTP_USER_AGENT'].downcase
-       [:windows, :macintosh, :linux].each do |os|
+       [:windows, :macintosh, :linux, :iphone].each do |os|
          return os if agent.include?(os.to_s)
        end
        return 'generic_os'
