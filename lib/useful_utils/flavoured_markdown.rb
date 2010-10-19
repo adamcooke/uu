@@ -38,7 +38,7 @@ module UsefulUtils
       extractions = {}
       content.gsub!(/(\<pre\>.*?\<\/pre\>|\<code\>.*?\<\/code\>)/m) do |match|
         md5 = Digest::MD5.hexdigest(match)
-        extractions[md5] = match
+        extractions[md5] = html_escape(match)
         "{afm-extraction-#{md5}}"
       end
 
